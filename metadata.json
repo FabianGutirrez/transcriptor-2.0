@@ -1,0 +1,6 @@
+{
+  "name": "Transcriptor Clínico",
+  "description": "SaaS para fonoaudiología que permite la transcripción y análisis clínico de sesiones mediante IA.",
+  "requestFramePermissions": ["camera", "microphone"],
+  "majorCapabilities": ["speech-to-text", "clinical-analysis"]
+}

@@ -1,0 +1,82 @@
+{
+  "entities": {
+    "User": {
+      "title": "Clinical User",
+      "description": "Speech therapist profile and subscription status",
+      "type": "object",
+      "properties": {
+        "role": { "type": "string", "enum": ["Admin", "Fonoaudiólogo"] },
+        "subscription": { "type": "string", "enum": ["Básico", "Intermedio", "Full"] },
+        "transcriptionCount": { "type": "integer" },
+        "email": { "type": "string", "format": "email" },
+        "lastReset": { "type": "string", "format": "date-time" }
+      },
+      "required": ["role", "subscription", "email"]
+    },
+    "Patient": {
+      "title": "Patient",
+      "description": "Basic data and clinical record of a patient",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string" },
+        "birthDate": { "type": "string", "format": "date" },
+        "clinicalHistory": { "type": "string" },
+        "therapistId": { "type": "string" }
+      },
+      "required": ["name", "therapistId"]
+    },
+    "Transcription": {
+      "title": "Transcription Record",
+      "description": "Logs of audio/video processing",
+      "type": "object",
+      "properties": {
+        "patientId": { "type": "string" },
+        "audioUrl": { "type": "string" },
+        "text": { "type": "string" },
+        "metadata": { "type": "object" },
+        "therapistId": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["patientId", "text", "therapistId"]
+    },
+    "Report": {
+      "title": "Informe Fonoaudiológico",
+      "description": "Análisis fonoaudiológico estructurado basado en la sesión clínica",
+      "type": "object",
+      "properties": {
+        "transcriptionId": { "type": "string" },
+        "patientId": { "type": "string" },
+        "analysis": { 
+          "type": "object",
+          "properties": {
+            "fluidez": { "type": "string", "description": "Análisis de ritmo y velocidad" },
+            "articulacion": { "type": "string", "description": "Precisión fonética" },
+            "coherencia": { "type": "string", "description": "Coherencia temática" },
+            "sugerencias": { "type": "string", "description": "Recomendaciones terapéuticas" }
+          }
+        },
+        "therapistId": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["patientId", "analysis", "therapistId"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "User",
+      "description": "User profiles"
+    },
+    "/patients/{patientId}": {
+      "schema": "Patient",
+      "description": "Patient records"
+    },
+    "/transcriptions/{transcriptionId}": {
+      "schema": "Transcription",
+      "description": "Session transcriptions"
+    },
+    "/reports/{reportId}": {
+      "schema": "Report",
+      "description": "Generated clinical reports"
+    }
+  }
+}
